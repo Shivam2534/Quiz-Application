@@ -68,7 +68,7 @@ function App() {
   }
 
   function loadTheAnswerForCurrentQuetion(curr) {
-    const isChecked = CheckIsAnsweredPreviously(q[curr].id);
+    const isChecked = CheckIsAnsweredPreviously(q[curr]?.id);
     if (isChecked) {
       setuserAnswer(isChecked.user_ans);
     } else {
@@ -192,11 +192,23 @@ function App() {
       </div>
     </div>
   ) : (
-    <div>
-      <p>
-        You have Scored-{Score}/{q.length}
-      </p>
-    </div>
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100">
+  <div className="bg-white shadow-md rounded-lg p-6 text-center">
+    <h1 className="text-2xl font-bold text-gray-800 mb-4">
+      You have Scored {Score}/{q.length}
+    </h1>
+    <p className="text-lg text-gray-600 mb-4">
+      Refresh the page to retake the quiz!
+    </p>
+    <button
+      onClick={() => window.location.reload()}
+      className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-200"
+    >
+      Retake Quiz
+    </button>
+  </div>
+</div>
+
   );
 }
 
