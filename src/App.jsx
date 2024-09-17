@@ -146,7 +146,7 @@ function App() {
   return curr < q.length ? (
     <div>
       <div className="border border-blue-200 justify-start flex pl-2 sm:pl-10 h-10 items-center">
-        Hello👋, <b>shivam</b>
+        Hello👋, <b>shivam (Admin)</b>
       </div>
       <div className="bg-blue-100  pt-8 sm:p-1 px-1 h-20 sm:h-10  flex-col sm:flex-row justify-center sm:items-center sm:justify-between flex sm:pr-10">
         <div className="h-10 sm:pl-9 w-full">
