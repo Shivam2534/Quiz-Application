@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useEffect } from "react";
 import Timer from "./Timer.jsx";
-import Upload_data from "./upload_data.jsx";
+import Upload_data from "./Upload_data.jsx";
 import { useSelector } from "react-redux";
 
 function App() {
@@ -96,7 +96,7 @@ function App() {
     seterroMsg("");
   }, 3000);
 
-  console.log(userAnsweredArray.length)
+  console.log(userAnsweredArray.length);
 
   return curr < q.length ? (
     <div>
