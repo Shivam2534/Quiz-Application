@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import q from "./data.json";
+import { useSelector } from "react-redux";
 
 function Timer({ setcurr }) {
   const [timeLeft, setTimeLeft] = useState(120);
+  const datalen = useSelector((state) => state.Auth.Tempdata).length;
 
   useEffect(() => {
     let UserAuthData = JSON.parse(localStorage.getItem("UserAuthData"));
@@ -10,12 +12,12 @@ function Timer({ setcurr }) {
       setTimeLeft(UserAuthData.RequiredTime);
     }
 
-    // Set up interval for countdown
     const timer = setInterval(() => {
       setTimeLeft((prev) => {
         if (prev <= 1) {
           console.log("publish results");
-          setcurr(q.length); // Handle the "publish results" case
+          localStorage.setItem("curr",datalen) // Handle the "publish results" case
+          window.location.reload()
           clearInterval(timer); // Stop the timer once timeLeft reaches 0
           return 0;
         }
@@ -23,9 +25,8 @@ function Timer({ setcurr }) {
       });
     }, 1000);
 
-    // Clean up interval on component unmount
     return () => clearInterval(timer);
-  }, [setcurr]);
+  }, []);
 
   // Format timeLeft in hh:mm:ss format
   const formatTime = (seconds) => {

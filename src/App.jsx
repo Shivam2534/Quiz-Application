@@ -262,25 +262,22 @@ function App() {
       </div>
     ) : (
       <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-r from-green-100 to-blue-100">
-        {/* Congratulations Card */}
         <div className="bg-white shadow-2xl rounded-lg p-8 text-center max-w-md">
           <h1 className="text-4xl font-bold text-blue-700 mb-4">
             Congratulations!
           </h1>
           <p className="text-xl text-gray-700 mb-6">
-            You’ve completed the quiz and scored - {" "}
+            You’ve completed the quiz and scored -{" "}
             <span className="text-green-600">{Score}</span> out of{" "}
             <span className="text-blue-600">{q.length}</span>.
           </p>
 
-          {/* Descriptive Message */}
           <p className="text-lg text-gray-600 mb-6">
             Great job! Want to improve your score or try again? Hit the button
             below to refresh and retake the quiz. Remember, practice makes
             perfect!
           </p>
 
-          {/* Retake Quiz Button */}
           <button
             onClick={() => {
               localStorage.clear(); // Clear localStorage data
