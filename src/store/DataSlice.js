@@ -5,7 +5,6 @@ const initialState = {
   Tempdata: data1,
 };
 
-
 export const DataSlice = createSlice({
   name: "Auth",
   initialState,

@@ -2,10 +2,19 @@ import { useState } from "react";
 import { useEffect } from "react";
 import Timer from "./Timer.jsx";
 import Upload_data from "./Upload_data.jsx";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { UpdateData } from "./store/DataSlice.js";
 
 function App() {
   let q = useSelector((state) => state.Auth.Tempdata);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    let savedData = JSON.parse(localStorage.getItem("uploadedDataSet"));
+    if (savedData) {
+      dispatch(UpdateData(savedData));
+    }
+  }, [dispatch]);
 
   const [curr, setcurr] = useState(0);
   const [userAnsweredArray, setuserAnsweredArray] = useState([]);
@@ -40,19 +49,33 @@ function App() {
       const isAnsweredPreviously = CheckIsAnsweredPreviously(quetion_id);
 
       if (!isAnsweredPreviously) {
-        setuserAnsweredArray((prevAns) => [
-          ...prevAns,
+        const newAnswers = [
+          ...userAnsweredArray,
           {
             quetion_id: quetion_id,
             correct_ans: q[curr].correct,
             user_ans: userAnswer,
           },
-        ]);
+        ];
+
+        setuserAnswer(null);
+        setuserAnsweredArray(newAnswers);
+        localStorage.setItem("userAnsweredArray", JSON.stringify(newAnswers));
       } else {
         setuserAnsweredArray(updatedAnswers);
+        // Save to localStorage
+        localStorage.setItem(
+          "userAnsweredArray",
+          JSON.stringify(updatedAnswers)
+        );
       }
 
-      setcurr((prevCurr) => prevCurr + 1);
+      setcurr((prevCurr) => {
+        const newCurr = prevCurr + 1;
+        // Save current question index to localStorage
+        localStorage.setItem("curr", newCurr);
+        return newCurr;
+      });
     } else {
       seterroMsg("Please select an answer!");
     }
@@ -67,6 +90,8 @@ function App() {
       if (previousAnswer) {
         setuserAnswer(previousAnswer.user_ans);
       }
+
+      localStorage.setItem("curr", curr_quetion_no);
       setcurr(curr_quetion_no);
     }
   }
@@ -80,21 +105,41 @@ function App() {
     }
   }
 
+  console.log("curr-", curr);
+
   useEffect(() => {
     loadTheAnswerForCurrentQuetion(curr);
 
+    const savedAnswers = localStorage.getItem("userAnsweredArray");
+    const savedCurr = localStorage.getItem("curr");
+    const savedScore = localStorage.getItem("Score");
+
+    if (savedAnswers) {
+      setuserAnsweredArray(JSON.parse(savedAnswers));
+    }
+
+    if (savedCurr) {
+      setcurr(Number(savedCurr));
+    }
+
+    if (savedScore) {
+      setScore(Number(savedScore));
+    }
+  }, [curr]);
+
+  useEffect(() => {
     if (curr >= q.length) {
-      userAnsweredArray.map((answer) => {
+      let newScore = 0;
+      userAnsweredArray.forEach((answer) => {
         if (answer.user_ans === answer.correct_ans) {
-          setScore((prevScore) => prevScore + 1);
+          newScore++;
         }
       });
+      setScore(newScore);
+      // Save score to localStorage
+      localStorage.setItem("Score", newScore);
     }
   }, [curr, userAnsweredArray]);
-
-  setTimeout(() => {
-    seterroMsg("");
-  }, 3000);
 
   console.log(userAnsweredArray.length);
 
@@ -104,11 +149,11 @@ function App() {
         Hello👋, <b>shivam</b>
       </div>
       <div className="bg-blue-100  pt-8 sm:p-1 px-1 h-20 sm:h-10  flex-col sm:flex-row justify-center sm:items-center sm:justify-between flex sm:pr-10">
-        <div className=" sm:pl-10">
+        <div className="h-10 sm:pl-9 w-full">
           <Upload_data />
         </div>
         <div className="pt-5 flex justify-end  w-full">
-        <Timer setcurr={setcurr} />
+          <Timer setcurr={setcurr} />
         </div>
       </div>
       <div className="px-2 min-h-screen bg-gray-100 flex items-center justify-center">
@@ -220,7 +265,10 @@ function App() {
           Refresh the page to retake the quiz!
         </p>
         <button
-          onClick={() => window.location.reload()}
+          onClick={() => {
+            localStorage.clear(); // Clear localStorage data
+            window.location.reload(); // Reload the page to reset
+          }}
           className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-200"
         >
           Retake Quiz
