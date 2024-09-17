@@ -2,20 +2,30 @@ import { useEffect, useState } from "react";
 import q from "./data.json";
 
 function Timer({ setcurr }) {
-  const duration = 60 * 60 * 0.5; // sec
-  const [timeLeft, setTimeLeft] = useState(duration);
+  const [timeLeft, setTimeLeft] = useState(120);
 
   useEffect(() => {
-    if (timeLeft <= 0) {
-      console.log("publish results");
-      setcurr(q.length);
+    let UserAuthData = JSON.parse(localStorage.getItem("UserAuthData"));
+    if (UserAuthData) {
+      setTimeLeft(UserAuthData.RequiredTime);
     }
+
+    // Set up interval for countdown
     const timer = setInterval(() => {
-      setTimeLeft((prev) => prev - 1);
+      setTimeLeft((prev) => {
+        if (prev <= 1) {
+          console.log("publish results");
+          setcurr(q.length); // Handle the "publish results" case
+          clearInterval(timer); // Stop the timer once timeLeft reaches 0
+          return 0;
+        }
+        return prev - 1;
+      });
     }, 1000);
 
+    // Clean up interval on component unmount
     return () => clearInterval(timer);
-  }, [timeLeft]);
+  }, [setcurr]);
 
   // Format timeLeft in hh:mm:ss format
   const formatTime = (seconds) => {
@@ -30,8 +40,8 @@ function Timer({ setcurr }) {
   };
 
   return (
-    <div className=" border border-gray-500 text-center bg-gray-200 text-gray-700 py-2 px-4 rounded-lg">
-      <p className="font-semibold ">Time Remaining: {formatTime(timeLeft)}</p>
+    <div className="border border-gray-500 text-center bg-gray-200 text-gray-700 py-2 px-4 rounded-lg">
+      <p className="font-semibold">Time Remaining: {formatTime(timeLeft)}</p>
     </div>
   );
 }

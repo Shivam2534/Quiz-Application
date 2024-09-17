@@ -3,6 +3,8 @@ import data1 from "../data.json";
 
 const initialState = {
   Tempdata: data1,
+  username: "",
+  RequiredTime: 120,
 };
 
 export const DataSlice = createSlice({
@@ -10,13 +12,16 @@ export const DataSlice = createSlice({
   initialState,
   reducers: {
     UpdateData: (state, action) => {
-      console.log("Tempdata after updation-", action.payload);
       state.Tempdata = action.payload;
+    },
+    login: (state, action) => {
+      state.username = action.payload.username;
+      state.RequiredTime = action.payload.RequiredTime;
     },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { UpdateData } = DataSlice.actions;
+export const { UpdateData, login } = DataSlice.actions;
 
 export default DataSlice.reducer;
