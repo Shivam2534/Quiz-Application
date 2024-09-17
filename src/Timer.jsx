@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { quizData as q } from "./data.js";
+import q from "./data.json";
 
 function Timer({ setcurr }) {
-  const duration = 3*60; // sec
+  const duration = 60 * 60 * 0.5; // sec
   const [timeLeft, setTimeLeft] = useState(duration);
 
   useEffect(() => {

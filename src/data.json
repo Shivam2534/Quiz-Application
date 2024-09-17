@@ -1,0 +1,38 @@
+[
+  {
+    "id": "1",
+    "question": "what is my name?",
+    "a": "shivam",
+    "b": "shivam1",
+    "c": "shivam2",
+    "d": "JavaScript",
+    "correct": "a"
+  },
+  {
+    "id": "2",
+    "question": "what is my name of my college?",
+    "a": "IIT RR",
+    "b": "IIT RE",
+    "c": "IIT R",
+    "d": "IIT RF",
+    "correct": "c"
+  },
+  {
+    "id": "3",
+    "question": "on which floor i am?",
+    "a": "1 st",
+    "b": "2 nd",
+    "c": "3 rd",
+    "d": "4 th",
+    "correct": "a"
+  },
+  {
+    "id": "4",
+    "question": "what is my school name?",
+    "a": "JNV kahndwa",
+    "b": "JNV indore",
+    "c": "JNV khargone",
+    "d": "JNV roorkee",
+    "correct": "c"
+  }
+]

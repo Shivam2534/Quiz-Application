@@ -1,9 +1,12 @@
 import { useState } from "react";
-import { quizData as q } from "./data.js";
 import { useEffect } from "react";
 import Timer from "./Timer.jsx";
+import Upload_data from "./upload_data.jsx";
+import { useSelector } from "react-redux";
 
 function App() {
+  let q = useSelector((state) => state.Auth.Tempdata);
+
   const [curr, setcurr] = useState(0);
   const [userAnsweredArray, setuserAnsweredArray] = useState([]);
   const [userAnswer, setuserAnswer] = useState(null);
@@ -93,14 +96,19 @@ function App() {
     seterroMsg("");
   }, 3000);
 
+  console.log(userAnsweredArray.length)
+
   return curr < q.length ? (
     <div>
-      <p className="border border-blue-200 justify-start flex pl-2 sm:pl-10 h-10 items-center">
+      <div className="border border-blue-200 justify-start flex pl-2 sm:pl-10 h-10 items-center">
         Hello👋, <b>shivam</b>
-      </p>
-      <p className=" justify-center sm:justify-end flex sm:pr-10 h-10 items-center bg-blue-100 ">
-        <Timer setcurr={setcurr}/>
-      </p>
+      </div>
+      <div className=" justify-center sm:justify-between flex sm:pr-10 h-10 items-center bg-blue-100 ">
+        <div className="pl-10">
+          <Upload_data />
+        </div>
+        <Timer setcurr={setcurr} />
+      </div>
       <div className="px-2 min-h-screen bg-gray-100 flex items-center justify-center">
         <div className="bg-white shadow-lg rounded-lg p-8 max-w-xl w-full mb-24">
           <div className="mb-6">
