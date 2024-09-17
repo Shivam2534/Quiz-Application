@@ -103,11 +103,13 @@ function App() {
       <div className="border border-blue-200 justify-start flex pl-2 sm:pl-10 h-10 items-center">
         Hello👋, <b>shivam</b>
       </div>
-      <div className=" justify-center sm:justify-between flex sm:pr-10 h-10 items-center bg-blue-100 ">
-        <div className="pl-10">
+      <div className="bg-blue-100  pt-8 sm:p-1 px-1 h-20 sm:h-10  flex-col sm:flex-row justify-center sm:items-center sm:justify-between flex sm:pr-10">
+        <div className=" sm:pl-10">
           <Upload_data />
         </div>
+        <div className="pt-5 flex justify-end  w-full">
         <Timer setcurr={setcurr} />
+        </div>
       </div>
       <div className="px-2 min-h-screen bg-gray-100 flex items-center justify-center">
         <div className="bg-white shadow-lg rounded-lg p-8 max-w-xl w-full mb-24">
